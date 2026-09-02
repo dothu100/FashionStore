@@ -21,7 +21,7 @@ public class AdminActivity extends AppCompatActivity {
         WebView webView = findViewById(R.id.webview);
 
         // loading https://www.geeksforgeeks.org url in the WebView.
-        webView.loadUrl("http://192.168.1.7:8080/signin-admin");
+        webView.loadUrl("http://192.168.177.215:8080/signin-admin");
         // this will enable the javascript.
         webView.getSettings().setJavaScriptEnabled(true);
 
@@ -54,7 +54,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 System.out.println("when you click on any interlink on webview that time you got url :-" + url);
-                if(url.equals("http://192.168.1.7:8080/redirect")){
+                if(url.equals("http://192.168.177.215:8080/redirect")){
                     startActivity(new Intent(AdminActivity.this, LoginActivity.class));
                 }
                 return super.shouldOverrideUrlLoading(view, url);

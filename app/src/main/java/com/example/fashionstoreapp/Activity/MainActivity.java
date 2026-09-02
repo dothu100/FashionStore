@@ -69,10 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
         etSearch.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
                     Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
                     intent.putExtra("searchContent", etSearch.getText().toString());
                     intent.putExtra("category_id", "-1");
@@ -126,6 +124,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 List<Product> newProductsList = response.body();
+
+                // Chỉ hiển thị 2 sản phẩm
+                if (newProductsList != null && newProductsList.size() > 4) {
+                    newProductsList = newProductsList.subList(0, 4);
+                }
+
                 adapter3 = new ProductAdapter(newProductsList, MainActivity.this);
                 recyclerViewBestSellersList.setAdapter(adapter3);
             }
@@ -147,6 +151,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 List<Product> newProductsList = response.body();
+
+
+                if (newProductsList != null && newProductsList.size() > 4) {
+                    newProductsList = newProductsList.subList(0, 4);
+                }
+
                 adapter2 = new ProductAdapter(newProductsList, MainActivity.this);
                 recyclerViewNewProductList.setAdapter(adapter2);
             }
@@ -163,11 +173,18 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewCategoryList = findViewById(R.id.view1);
         recyclerViewCategoryList.setLayoutManager(linearLayoutManager);
-        //Get API
+
+        //GET API
         CategoryAPI.categoryAPI.GetAllCategories().enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 List<Category> categoriesList = response.body();
+
+                // Chỉ hiển thị 2 danh mục
+                if (categoriesList != null && categoriesList.size() > 4) {
+                    categoriesList = categoriesList.subList(0, 4);
+                }
+
                 adapter = new CategoryAdapter(categoriesList, MainActivity.this);
                 recyclerViewCategoryList.setAdapter(adapter);
             }
@@ -175,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
                 Log.e("====", "Call API Get Categories fail");
-
             }
         });
     }
